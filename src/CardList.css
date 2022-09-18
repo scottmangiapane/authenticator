@@ -1,0 +1,8 @@
+.card:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.card-list {
+    max-height: 400px;
+    overflow: auto;
+}

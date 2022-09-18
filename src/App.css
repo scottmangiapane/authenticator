@@ -2,7 +2,6 @@
 
 :root {
     --link: #2e8dd0;
-    --theme: #263238;
 }
 
 /* Resets */
@@ -16,6 +15,8 @@ body, br, div, html, p, pre, span, textarea {
 
 body, html, #app, #root { height: 100%; }
 
+html { background-color: white; }
+
 /* Text */
 
 a { color: var(--link); }
@@ -26,11 +27,11 @@ a:hover {
 }
 
 a, code, p, pre, textarea {
-    color: white;
-    font-family: 'Roboto Mono';
-    font-size: 14px;
-    line-height: 1.6em;
-    tab-size: 4;
+    color: #717171;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.5em;
 }
 
 code, p, pre {
@@ -40,11 +41,21 @@ code, p, pre {
 
 /* Styles */
 
-html { background-color: var(--theme); }
+.btn-icon {
+    cursor: pointer;
+    fill: #717171;
+    height: 1.6em;
+    user-select: none;
+    vertical-align: middle;
+    width: auto;
+}
 
-.dashboard {
-    height: calc(100% - 38px - 1px);
-    overflow: auto;
+.btn-icon:hover { color: black; }
+
+.center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 .ellipsis {
@@ -52,3 +63,28 @@ html { background-color: var(--theme); }
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.hr { border-top: #eee 2px solid; }
+
+.m-sm-x {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.one-line {
+    align-items: center;
+    display: flex;
+    white-space: nowrap;
+}
+
+.p-md { padding: 16px; }
+
+.p-sm { padding: 8px; }
+
+.row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.row-fill-x { flex-grow: 1; }
