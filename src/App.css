@@ -1,0 +1,54 @@
+/* Palette */
+
+:root {
+    --link: #2e8dd0;
+    --theme: #263238;
+}
+
+/* Resets */
+
+a, a:active, a:focus, a:hover, a:visited { text-decoration: none; }
+
+body, br, div, html, p, pre, span, textarea {
+    margin: 0;
+    padding: 0;
+}
+
+body, html, #app, #root { height: 100%; }
+
+/* Text */
+
+a { color: var(--link); }
+
+a:hover {
+    color: var(--link);
+    text-decoration: underline;
+}
+
+a, code, p, pre, textarea {
+    color: white;
+    font-family: 'Roboto Mono';
+    font-size: 14px;
+    line-height: 1.6em;
+    tab-size: 4;
+}
+
+code, p, pre {
+    cursor: default;
+    user-select: none;
+}
+
+/* Styles */
+
+html { background-color: var(--theme); }
+
+.dashboard {
+    height: calc(100% - 38px - 1px);
+    overflow: auto;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
