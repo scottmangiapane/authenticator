@@ -85,4 +85,6 @@ body { min-width: 200px; }
 
 .text-green { color: #4caf50; }
 
+.text-red { color: #f44336; }
+
 .text-xs { font-size: .5em; }

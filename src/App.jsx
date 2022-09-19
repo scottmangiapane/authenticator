@@ -9,7 +9,14 @@ import './App.css';
 export const AppContext = createContext();
 
 function App() {
-    const initialState = { config: '', copyExpiration: null, editMode: false };
+    const exampleConfig = '[\n'
+        + '  {\n'
+        + '    "name": "Example",\n'
+        + '    "secret": "JBSWY3DPEHPK3PXP"\n'
+        + '  }\n'
+        + ']\n';
+
+    const initialState = { config: exampleConfig, copyExpiration: null, editMode: false };
     const [state, dispatch] = useReducer(appReducer, initialState);
 
     function appReducer(state, action) {

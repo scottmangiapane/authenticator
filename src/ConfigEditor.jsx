@@ -24,23 +24,15 @@ function ConfigEditor() {
         dispatch({ type: 'UPDATE_CONFIG', data: sanitized });
     }
 
-    const exampleConfig = '[\n'
-        + '  {\n'
-        + '    "name": "Example"\n'
-        + '    "secret": "JBSWY3DPEHPK3PXP"\n'
-        + '  }\n'
-        + ']\n';
-
     return (
         <textarea
             ref={ editorRef }
             autoFocus
             className='editor p-md'
-            defaultValue={ exampleConfig }
             onBlur={ onBlur }
             onInput={ onInput }
             spellCheck='false'
-            // value={ state.config }
+            value={ state.config }
             />
     );
 }

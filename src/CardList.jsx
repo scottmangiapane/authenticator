@@ -1,23 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import totp from './totp';
-
+import { AppContext } from './App';
 import Card from './Card';
 
 import './CardList.css';
-
-const data = [{
-    name: 'Dummy item no. 1',
-    secret: 'ASDFGHJKL'
-}, {
-    name: 'Dummy item no. 2',
-    secret: 'ASDFGHJKL'
-}, {
-    name: 'Dummy item no. 3',
-    secret: 'ASDFGHJKL'
-}];
+import totp from './totp';
 
 function CardList() {
+    const { state } = useContext(AppContext);
+
     const [time, setTime] = useState((new Date()).getSeconds() % 30);
 
     useEffect(() => {
@@ -25,17 +16,32 @@ function CardList() {
         return () => clearTimeout(timer);
     }, [time]);
 
-    const cards = data.map(d => {
-        const { name, secret } = d;
-        const token = totp({ secret, encoding: 'base32' });
-        return <Card key={ name } name={ name } time={ time } token={ token } />;
+    function assertType(type, value) {
+        if (!(value instanceof type)) {
+            throw 'Unexpected type';
+        }
+    }
+
+    let parsedConfig;
+    try {
+        parsedConfig = JSON.parse(state.config);
+        assertType(Array, parsedConfig);
+    } catch {
+        return <p className='p-md text-red'>Invalid configuration</p>;
+    }
+
+    const cards = parsedConfig.map(item => {
+        try {
+            assertType(Object, item);
+            const { name, secret } = item;
+            const token = totp({ secret, encoding: 'base32' });
+            return <Card key={ name } name={ name } time={ time } token={ token } />;
+        } catch {
+            return <p className='m-sm-x p-sm text-red'>Invalid item</p>
+        }
     });
 
-    return (
-        <div className='card-list'>
-            { cards }
-        </div>
-    );
+    return <div className='card-list'>{ cards }</div>;
 }
 
 export default CardList;

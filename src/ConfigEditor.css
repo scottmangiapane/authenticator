@@ -5,6 +5,6 @@
     height: 200px;
     outline: none;
     resize: none;
-    white-space: pre-wrap;
-    width: 400px;
+    white-space: nowrap;
+    width: 320px;
 }

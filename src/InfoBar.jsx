@@ -13,12 +13,10 @@ function InfoBar() {
         dispatch('TOGGLE_EDIT_MODE');
     }
 
+    const copied = <span className='text-green'>Copied</span>;
+
     const manifest = chrome?.runtime?.getManifest();
     const versionInfo = manifest && manifest?.name + ' v' + manifest?.version;
-
-    const copied = (
-        <span className='text-green'>Copied</span>
-    );
 
     const icon = (state.editMode)
         ? <SaveIcon className='btn-icon' />
