@@ -1,0 +1,10 @@
+.editor {
+    background: transparent;
+    border: 0;
+    font-family: 'Roboto Mono';
+    height: 200px;
+    outline: none;
+    resize: none;
+    white-space: pre-wrap;
+    width: 400px;
+}

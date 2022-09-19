@@ -33,6 +33,8 @@ code, p, pre {
 
 /* Styles */
 
+body { min-width: 200px; }
+
 .btn-icon {
     cursor: pointer;
     fill: currentColor;

@@ -1,6 +1,7 @@
 import { createContext, useReducer } from 'react';
 
 import CardList from './CardList';
+import ConfigEditor from './ConfigEditor';
 import InfoBar from './InfoBar';
 
 import './App.css';
@@ -8,7 +9,7 @@ import './App.css';
 export const AppContext = createContext();
 
 function App() {
-    const initialState = { copyExpiration: null, editMode: false };
+    const initialState = { config: '', copyExpiration: null, editMode: false };
     const [state, dispatch] = useReducer(appReducer, initialState);
 
     function appReducer(state, action) {
@@ -24,6 +25,8 @@ function App() {
                 return { ...state, copyExpiration: (new Date()).getTime() + duration };
             case 'TOGGLE_EDIT_MODE':
                 return { ...state, editMode: !state.editMode };
+            case 'UPDATE_CONFIG':
+                return { ...state, config: action?.data };
             default:
                 return state;
         }
@@ -32,7 +35,7 @@ function App() {
     return (
         <div id='app'>
             <AppContext.Provider value={{ state, dispatch }}>
-                <CardList />
+                { (state.editMode) ? <ConfigEditor /> : <CardList /> }
                 <div className='hr'></div>
                 <InfoBar />
             </AppContext.Provider>
