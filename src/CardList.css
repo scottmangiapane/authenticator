@@ -8,7 +8,8 @@
 
 .card-list {
     max-height: 400px;
-    overflow: auto;
+    min-width: 200px;
+    overflow-y: auto;
 }
 
 .card-title { color: black; }

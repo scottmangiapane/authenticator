@@ -1,10 +1,13 @@
 import './Countdown.css';
 
-function Countdown({ className, value }) {
+function Countdown({ className, text, value }) {
   return (
-    <div
-      className={ 'countdown ' + className }
-      style={{ '--size': '1.5em', '--value': value }}>
+    <div className='overlap'>
+      <div
+        className={ 'countdown ' + className }
+        style={{ '--size': '2em', '--value': value }}>
+      </div>
+      <p className='center text-xs'>{ text }</p>
     </div>
   );
 }

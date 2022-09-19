@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import totp from './totp';
 
 import Countdown from './Countdown';
@@ -31,6 +33,13 @@ const data = [{
 }];
 
 function CardList() {
+  const [time, setTime] = useState((new Date()).getSeconds() % 30);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setTime((new Date()).getSeconds() % 30), 1000);
+    return () => clearTimeout(timer);
+  }, [time]);
+
   const cards = data.map(d => {
     const { name, secret } = d;
     const token = totp({ secret, encoding: 'base32' });
@@ -40,7 +49,7 @@ function CardList() {
           <p className='card-title ellipsis'>{ name }</p>
           <p className='card-content'>{ token }</p>
         </div>
-        <Countdown className='m-sm-x' value={ 75 } />
+        <Countdown className='m-sm-x' text={ time } value={ time / 30 * 100 } />
       </div>
     );
   });
