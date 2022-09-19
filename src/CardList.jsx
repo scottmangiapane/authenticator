@@ -1,5 +1,7 @@
 import totp from './totp';
 
+import Countdown from './Countdown';
+
 import './CardList.css';
 
 const data = [{
@@ -33,9 +35,12 @@ function CardList() {
     const { name, secret } = d;
     const token = totp({ secret, encoding: 'base32' });
     return (
-      <div className='card p-md' key={ name }>
-        <p className='ellipsis'>{ name }</p>
-        <p>{ token }</p>
+      <div className='card p-sm row' key={ name }>
+        <div className='m-sm-x row-fill-x'>
+          <p className='card-title ellipsis'>{ name }</p>
+          <p className='card-content'>{ token }</p>
+        </div>
+        <Countdown className='m-sm-x' value={ 75 } />
       </div>
     );
   });

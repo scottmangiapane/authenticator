@@ -2,7 +2,13 @@
     background-color: #fafafa;
 }
 
+.card-content {
+    font-size: 2em;
+}
+
 .card-list {
     max-height: 400px;
     overflow: auto;
 }
+
+.card-title { color: black; }
