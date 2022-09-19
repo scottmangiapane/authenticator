@@ -1,0 +1,9 @@
+.card:hover { background-color: rgba(0, 0, 0, .04); }
+
+.card:hover:active { background-color: rgba(0, 0, 0, .08); }
+
+.card:hover, .card:hover * { cursor: pointer; }
+
+.card-content { font-size: 2em; }
+
+.card-title { color: black; }

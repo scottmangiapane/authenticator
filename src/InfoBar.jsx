@@ -1,14 +1,24 @@
 /*global chrome*/
 
+import { useContext } from 'react';
+
+import { AppContext } from './App';
 import EditIcon from './icons/EditIcon';
 
 function InfoBar() {
+  const { state } = useContext(AppContext);
+
   const manifest = chrome?.runtime?.getManifest();
+  const versionInfo = manifest && manifest?.name + ' v' + manifest?.version;
+
+  const copied = (
+    <span className='text-green'>Copied</span>
+  );
 
   return (
     <div id='info-bar' className='p-sm row'>
       <p className='m-sm-x one-line row-fill-x'>
-        { manifest && manifest?.name + ' v' + manifest?.version }
+        { state.lastCopy ? copied : versionInfo}
       </p>
       <EditIcon className='btn-icon m-sm-x' />
     </div>

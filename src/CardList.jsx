@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import totp from './totp';
 
-import Countdown from './Countdown';
+import Card from './Card';
 
 import './CardList.css';
 
@@ -14,21 +14,6 @@ const data = [{
   secret: 'ASDFGHJKL'
 }, {
   name: 'Dummy item no. 3',
-  secret: 'ASDFGHJKL'
-}, {
-  name: 'Dummy item no. 4',
-  secret: 'ASDFGHJKL'
-}, {
-  name: 'Dummy item no. 5',
-  secret: 'ASDFGHJKL'
-}, {
-  name: 'Dummy item no. 6',
-  secret: 'ASDFGHJKL'
-}, {
-  name: 'Dummy item no. 7',
-  secret: 'ASDFGHJKL'
-}, {
-  name: 'Dummy item no. 8',
   secret: 'ASDFGHJKL'
 }];
 
@@ -43,15 +28,7 @@ function CardList() {
   const cards = data.map(d => {
     const { name, secret } = d;
     const token = totp({ secret, encoding: 'base32' });
-    return (
-      <div className='card p-sm row' key={ name }>
-        <div className='m-sm-x row-fill-x'>
-          <p className='card-title ellipsis'>{ name }</p>
-          <p className='card-content'>{ token }</p>
-        </div>
-        <Countdown className='m-sm-x' text={ time } value={ time / 30 * 100 } />
-      </div>
-    );
+    return <Card key={ name } name={ name } time={ time } token={ token } />;
   });
 
   return (
