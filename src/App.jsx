@@ -8,15 +8,22 @@ import './App.css';
 export const AppContext = createContext();
 
 function App() {
-  const initialState = { lastCopy: 0 };
+  const initialState = { copyExpiration: null };
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   function appReducer(state, action) {
-    switch (action.type) {
+    switch (action?.type || action) {
+      case 'CHECK_COPIED':
+        if ((new Date()).getTime() >= state.copyExpiration) {
+          return { ...state, copyExpiration: null };
+        }
+        return state;
       case 'SET_COPIED':
-        return { ...state, lastCopy: action.data }
+        const duration = 1600;
+        setTimeout(() => dispatch('CHECK_COPIED'), duration);
+        return { ...state, copyExpiration: (new Date()).getTime() + duration };
       default:
-        return initialState;
+        return state;
     }
   }
 

@@ -5,7 +5,7 @@
 }
 
 .countdown:before {
-    background: conic-gradient(#2196f3 calc(var(--value) * 1%), #0000 0);
+    background: conic-gradient(#2196f3 calc(var(--value) * 1%), #bbdefb 0);
     border-radius: 50%;
     content: '';
     inset: 0;

@@ -11,7 +11,7 @@ function Card({ name, time, token }) {
   function handleClick(text) {
     return () => {
       navigator.clipboard.writeText(text);
-      dispatch({ type: 'SET_COPIED', data: (new Date()).getTime() });
+      dispatch('SET_COPIED');
     }
   }
 

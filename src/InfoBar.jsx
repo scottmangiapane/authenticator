@@ -18,7 +18,7 @@ function InfoBar() {
   return (
     <div id='info-bar' className='p-sm row'>
       <p className='m-sm-x one-line row-fill-x'>
-        { state.lastCopy ? copied : versionInfo}
+        { state.copyExpiration ? copied : versionInfo}
       </p>
       <EditIcon className='btn-icon m-sm-x' />
     </div>
