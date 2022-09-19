@@ -30,6 +30,10 @@ function CardList() {
         return <p className='p-md text-red'>Invalid configuration</p>;
     }
 
+    if (!parsedConfig.length) {
+        return <p className='p-md'>No items</p>;
+    }
+
     const cards = parsedConfig.map(item => {
         try {
             assertType(Object, item);
