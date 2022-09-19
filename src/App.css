@@ -35,7 +35,7 @@ code, p, pre {
 
 .btn-icon {
     cursor: pointer;
-    fill: #717171;
+    fill: currentColor;
     height: 1.6em;
     user-select: none;
     vertical-align: middle;

@@ -8,7 +8,7 @@ import './App.css';
 export const AppContext = createContext();
 
 function App() {
-    const initialState = { copyExpiration: null };
+    const initialState = { copyExpiration: null, editMode: false };
     const [state, dispatch] = useReducer(appReducer, initialState);
 
     function appReducer(state, action) {
@@ -22,6 +22,8 @@ function App() {
                 const duration = 1600;
                 setTimeout(() => dispatch('CHECK_COPIED'), duration);
                 return { ...state, copyExpiration: (new Date()).getTime() + duration };
+            case 'TOGGLE_EDIT_MODE':
+                return { ...state, editMode: !state.editMode };
             default:
                 return state;
         }
