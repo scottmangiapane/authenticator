@@ -1,4 +1,4 @@
-import { createRef, useContext, useEffect } from 'react';
+import { createRef, useContext } from 'react';
 
 import { AppContext } from './App';
 
@@ -7,13 +7,6 @@ import './ConfigEditor.css';
 function ConfigEditor() {
     const editorRef = createRef();
     const { state, dispatch } = useContext(AppContext);
-
-    useEffect(() => {
-        const end = editorRef.current.value.length;
-        editorRef.current.setSelectionRange(end, end);
-        editorRef.current.blur();
-        editorRef.current.focus();
-    }, []);
 
     function onBlur() {
         editorRef.current.focus();
