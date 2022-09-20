@@ -33,7 +33,7 @@ code, p, pre {
 
 /* Styles */
 
-body { min-width: 200px; }
+body { min-width: 180px; }
 
 .btn-icon {
     cursor: pointer;
@@ -59,6 +59,8 @@ body { min-width: 200px; }
 }
 
 .hr { border-top: #eee 2px solid; }
+
+.m-md { margin: 16px; }
 
 .m-sm-x {
     margin-left: 8px;

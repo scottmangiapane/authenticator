@@ -1,23 +1,29 @@
-import { createContext, useReducer } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
 
 import CardList from './CardList';
 import ConfigEditor from './ConfigEditor';
 import InfoBar from './InfoBar';
+import Spinner from './Spinner';
 
 import './App.css';
+import { get } from './utils/storage';
 
 export const AppContext = createContext();
 
 function App() {
     const exampleConfig = '[\n'
-        + '  {\n'
-        + '    "name": "Example",\n'
-        + '    "secret": "JBSWY3DPEHPK3PXP"\n'
-        + '  }\n'
-        + ']\n';
+    + '  {\n'
+    + '    "name": "Example",\n'
+    + '    "secret": "JBSWY3DPEHPK3PXP"\n'
+    + '  }\n'
+    + ']\n';
 
-    const initialState = { config: exampleConfig, copyExpiration: null, editMode: false };
-    const [state, dispatch] = useReducer(appReducer, initialState);
+    const [state, dispatch] = useReducer(appReducer, {
+        config: exampleConfig,
+        copyExpiration: null,
+        editMode: false,
+        isConfigLoading: true
+    });
 
     function appReducer(state, action) {
         switch (action?.type || action) {
@@ -30,6 +36,10 @@ function App() {
                 const duration = 1600;
                 setTimeout(() => dispatch('CHECK_COPIED'), duration);
                 return { ...state, copyExpiration: (new Date()).getTime() + duration };
+            case 'CONFIG_LOADED':
+                return { ...state, isConfigLoading: false };
+            case 'CONFIG_LOADING':
+                return { ...state, isConfigLoading: true };
             case 'TOGGLE_EDIT_MODE':
                 return { ...state, editMode: !state.editMode };
             case 'UPDATE_CONFIG':
@@ -39,12 +49,25 @@ function App() {
         }
     }
 
+    useEffect(() => {
+        get('config', exampleConfig).then((config) => {
+            dispatch({ type: 'UPDATE_CONFIG', data: config });
+            dispatch('CONFIG_LOADED');
+        });
+    }, [exampleConfig]);
+
+    const content = (state.isConfigLoading)
+        ? <Spinner className='m-md' size='16px' />
+        : <>
+            { (state.editMode) ? <ConfigEditor /> : <CardList /> }
+            <div className='hr'></div>
+            <InfoBar />
+        </>;
+
     return (
         <div id='app'>
             <AppContext.Provider value={{ state, dispatch }}>
-                { (state.editMode) ? <ConfigEditor /> : <CardList /> }
-                <div className='hr'></div>
-                <InfoBar />
+                { content }
             </AppContext.Provider>
         </div>
     );

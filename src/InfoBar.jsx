@@ -1,4 +1,4 @@
-/*global chrome*/
+/* global chrome */
 
 import { useContext } from 'react';
 
@@ -6,10 +6,18 @@ import { AppContext } from './App';
 import EditIcon from './icons/EditIcon';
 import SaveIcon from './icons/SaveIcon';
 
+import { set } from './utils/storage';
+
 function InfoBar() {
     const { dispatch, state } = useContext(AppContext);
 
     function handleClick() {
+        if (state.editMode) {
+            dispatch('CONFIG_LOADING');
+            set('config', state.config).then(() => {
+                dispatch('CONFIG_LOADED');
+            });
+        }
         dispatch('TOGGLE_EDIT_MODE');
     }
 

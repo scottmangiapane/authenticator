@@ -4,7 +4,7 @@ import { AppContext } from './App';
 import Card from './Card';
 
 import './CardList.css';
-import totp from './totp';
+import totp from './utils/totp';
 
 function CardList() {
     const { state } = useContext(AppContext);
@@ -38,8 +38,7 @@ function CardList() {
         try {
             assertType(Object, item);
             const { name, secret } = item;
-            const token = totp({ secret, encoding: 'base32' });
-            return <Card key={ name } name={ name } time={ time } token={ token } />;
+            return <Card key={ name } name={ name } time={ time } token={ totp(secret) } />;
         } catch {
             return <p className='m-sm-x p-sm text-red'>Invalid item</p>
         }
