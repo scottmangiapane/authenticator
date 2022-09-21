@@ -17,32 +17,11 @@
         "storage"
     ],
     "commands": {
-        "insert-text-0": {
+        "insert-text": {
             "suggested_key": {
                 "default": "Ctrl+Shift+K"
             },
             "description": "Auto-fill the first TOTP token"
-        },
-        "insert-text-1": {
-            "description": "Auto-fill the second TOTP token"
-        },
-        "insert-text-2": {
-            "description": "Auto-fill the third TOTP token"
-        },
-        "insert-text-3": {
-            "description": "Auto-fill the fourth TOTP token"
-        },
-        "insert-text-4": {
-            "description": "Auto-fill the fifth TOTP token"
-        },
-        "insert-text-5": {
-            "description": "Auto-fill the sixth TOTP token"
-        },
-        "insert-text-6": {
-            "description": "Auto-fill the seventh TOTP token"
-        },
-        "insert-text-7": {
-            "description": "Auto-fill the eigth TOTP token"
         }
     },
     "content_scripts": [{

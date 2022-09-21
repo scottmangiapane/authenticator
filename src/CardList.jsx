@@ -1,3 +1,4 @@
+import { TOTP } from 'otpauth';
 import { useContext, useEffect, useState } from 'react';
 
 import { AppContext } from './App';
@@ -37,7 +38,8 @@ function CardList() {
         try {
             assertType(Object, item);
             const { name, secret } = item;
-            return <Card key={ name } name={ name } time={ time } token={ '123456' } />;
+            const totp = new TOTP({ secret }).generate();
+            return <Card key={ name } name={ name } time={ time } token={ totp } />;
         } catch {
             return <p className='m-sm-x p-sm text-red'>Invalid item</p>
         }
