@@ -14,7 +14,8 @@
         "128": "icon128.png"
     },
     "permissions": [
-        "storage"
+        "storage",
+        "tabs"
     ],
     "commands": {
         "insert-text": {
@@ -29,6 +30,7 @@
         "js": ["auto-fill.js"]
     }],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "background.js",
+        "type": "module"
     }
 }
