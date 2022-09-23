@@ -17,7 +17,7 @@ function ConfigEditor() {
             dispatch({ type: 'SET_EDITED_CONFIG', data: config });
             setIsLoaded(true);
         });
-    }, []);
+    }, [dispatch]);
 
     function onBlur() {
         editorRef.current.focus();

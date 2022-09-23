@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener(({ action, request }, sender, sendResponse)
         case 'get-config':
             get('config', exampleConfig).then((config) => sendResponse(config));
         case 'set-config':
-            set('config', request).then(() => sendResponse());
+            set('config', request).then(() => updateBadge() && sendResponse());
             return true;
     }
 });
