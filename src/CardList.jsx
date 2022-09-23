@@ -13,17 +13,21 @@ function CardList() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [time, setTime] = useState((new Date()).getSeconds() % 30);
 
+    useEffect(refreshData, []);
+
     useEffect(() => {
-        const timer = setTimeout(() => {
-            chrome.runtime.sendMessage({ action: 'fetch-items' }, ({ error, items }) => {
-                setError(error);
-                setItems(items);
-                setIsLoaded(true);
-            });
-            setTime((new Date()).getSeconds() % 30);
-        }, 10000);
+        const timer = setTimeout(refreshData, 1000);
         return () => clearTimeout(timer);
     }, [error, items, time]);
+
+    function refreshData() {
+        chrome.runtime.sendMessage({ action: 'fetch-items' }, ({ error, items }) => {
+            setError(error);
+            setItems(items);
+            setIsLoaded(true);
+        });
+        setTime((new Date()).getSeconds() % 30);
+    }
 
     if (!isLoaded) {
         return <Spinner className='m-md' size='16px' />;
