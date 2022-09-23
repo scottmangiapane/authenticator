@@ -9,6 +9,34 @@ chrome.commands.onCommand.addListener((command) => {
     }
 });
 
+async function insertToken() {
+    const config = await get('config');
+    if (validateConfig(config)) {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const matches = JSON.parse(config).filter((item) => {
+                return item['auto-fill'].some((host) => doesHostMatch(tabs[0].url, host));
+            });
+            try {
+                const token = getToken(matches[0].secret);
+                chrome.tabs.sendMessage(tabs[0].id, token);
+            } catch(err) {
+                console.error(err);
+            }
+        });
+    }
+}
+
+function doesHostMatch(url, expectedHost) {
+    const exp = /^(?:https?:\/\/)?([^\/?\n]+)/;
+    const [, actualHost] = exp.exec(url);
+    return expectedHost === actualHost;
+}
+
+function getToken(secret) {
+    const totp = new TOTP({ secret });
+    return totp.generate();
+}
+
 chrome.runtime.onMessage.addListener(({ action, request }, sender, sendResponse) => {
     switch (action) {
         case 'fetch-items':
@@ -42,30 +70,27 @@ async function fetchItems() {
     return { error: 'Invalid config entry' };
 }
 
-async function insertToken() {
-    const config = await get('config');
-    if (validateConfig(config)) {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const matches = JSON.parse(config).filter((item) => {
-                return item['auto-fill'].some((host) => doesHostMatch(tabs[0].url, host));
-            });
-            try {
-                const token = getToken(matches[0].secret);
-                chrome.tabs.sendMessage(tabs[0].id, token);
-            } catch(err) {
-                console.error(err);
-            }
+chrome.tabs.onActivated.addListener(updateBadge);
+chrome.tabs.onUpdated.addListener(updateBadge);
+
+function updateBadge() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tab = tabs[0];
+        if (!tab) return;
+        countItems(tab).then((count) => {
+            chrome.action.setBadgeText({ text: '' + (count || ''), tabId: tab.id });
         });
-    }
+    });
 }
 
-function doesHostMatch(url, expectedHost) {
-    const exp = /^(?:https?:\/\/)?([^\/?\n]+)/;
-    const [, actualHost] = exp.exec(url);
-    return expectedHost === actualHost;
-}
-
-function getToken(secret) {
-    const totp = new TOTP({ secret });
-    return totp.generate();
+async function countItems(tab) {
+    try {
+        const config = await get('config', exampleConfig);
+        if (validateConfig(config)) {
+            return JSON.parse(config).filter((item) => {
+                return item['auto-fill'].some((host) => doesHostMatch(tab.url, host));
+            }).length;
+        }
+    } catch {}
+    return 0;
 }
