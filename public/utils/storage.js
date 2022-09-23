@@ -1,7 +1,7 @@
-export function get(key) {
+export function get(key, fallback) {
     return new Promise((resolve) => {
         chrome.storage.sync.get([key], (result) => {
-            resolve(result[key]);
+            resolve(result[key] || fallback);
         });
     });
 }

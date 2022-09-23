@@ -1,3 +1,0 @@
-Make extension work with live reloading
-
-Recreate example config and editor

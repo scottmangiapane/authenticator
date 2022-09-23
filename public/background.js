@@ -1,16 +1,7 @@
 import { TOTP } from './lib/otpauth.esm.min.js';
 import validateConfig from './utils/config-validator.js';
+import exampleConfig from './utils/example-config.js';
 import { get, set } from './utils/storage.js';
-
-// const exampleConfig = '[\n'
-// + '  {\n'
-// + '    "name": "Example",\n'
-// + '    "secret": "JBSWY3DPEHPK3PXP",\n'
-// + '    "auto-fill": [\n'
-// + '      "example.com"\n'
-// + '    ]\n'
-// + '  }\n'
-// + ']\n';
 
 chrome.commands.onCommand.addListener((command) => {
     if (command === 'insert-token') {
@@ -23,6 +14,8 @@ chrome.runtime.onMessage.addListener(({ action, request }, sender, sendResponse)
         case 'fetch-items':
             fetchItems(request).then((response) => sendResponse(response));
             return true;
+        case 'get-config':
+            get('config', exampleConfig).then((config) => sendResponse(config));
         case 'set-config':
             set('config', request).then(() => sendResponse());
             return true;
@@ -30,7 +23,7 @@ chrome.runtime.onMessage.addListener(({ action, request }, sender, sendResponse)
 });
 
 async function fetchItems() {
-    const config = await get('config');
+    const config = await get('config', exampleConfig);
     if (!validateConfig(config)) {
         return { error: 'Could not parse config' };
     }
@@ -39,6 +32,9 @@ async function fetchItems() {
             const { name, secret } = entry;
             return { name, token: getToken(secret) };
         });
+        if (!items.length) {
+            return { error: 'Config is empty' };
+        }
         return { items };
     } catch(err) {
         console.error(err);

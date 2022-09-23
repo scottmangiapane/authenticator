@@ -11,16 +11,18 @@ function InfoBar() {
 
     function handleClick() {
         if (state.editMode) {
-            // TODO how to get editor contents since they're not in global state?
-            chrome.runtime.sendMessage({ action: 'set-config', request: null });
+            chrome.runtime.sendMessage({
+                action: 'set-config',
+                request: state.editedConfig
+            });
         }
         dispatch('TOGGLE_EDIT_MODE');
     }
 
     const copied = <span className='text-green'>Copied</span>;
 
-    const manifest = chrome?.runtime?.getManifest();
-    const versionInfo = manifest && manifest?.name + ' v' + manifest?.version;
+    const manifest = chrome.runtime.getManifest();
+    const versionInfo = manifest.name + ' v' + manifest.version;
 
     const icon = (state.editMode)
         ? <SaveIcon className='btn-icon' />

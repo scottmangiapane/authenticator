@@ -11,6 +11,7 @@ export const AppContext = createContext();
 function App() {
     const [state, dispatch] = useReducer(appReducer, {
         copyExpiration: null,
+        editedConfig: null,
         editMode: false
     });
 
@@ -25,6 +26,8 @@ function App() {
                 const duration = 1600;
                 setTimeout(() => dispatch('CHECK_COPIED'), duration);
                 return { ...state, copyExpiration: (new Date()).getTime() + duration };
+            case 'SET_EDITED_CONFIG':
+                return { ...state, editedConfig: action?.data };
             case 'TOGGLE_EDIT_MODE':
                 return { ...state, editMode: !state.editMode };
             default:
