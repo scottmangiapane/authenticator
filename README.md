@@ -1,6 +1,10 @@
-# Authenticator
+## Authenticator
 
 This is a Chrome extension for managing TOTP tokens. Tokens can by copy-pasted from the extension's popup window or intelligently inserted into the page using a keyboard shortcut (defaults to `Ctrl+Shift+K` or `Cmd+Shift+K`).
+
+## Screenshots
+
+<img src="screenshot.png" width="200">
 
 ## How to find the 2FA secret
 
