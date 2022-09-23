@@ -1,5 +1,5 @@
-Make auto-fill intelligent based on hostname of current tab URL
-- update keyboard shortcut description
-
 Remove need for otpauth node dependency
 - do all token generation in background.js
+- remove storage.js or move to public
+
+Make extension work with live reloading

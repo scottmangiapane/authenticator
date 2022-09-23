@@ -1,48 +1,41 @@
-import { TOTP } from 'otpauth';
-import { useContext, useEffect, useState } from 'react';
+/* global chrome */
 
-import { AppContext } from './App';
+import { useEffect, useState } from 'react';
+
 import Card from './Card';
+import Spinner from './Spinner';
 
 import './CardList.css';
 
 function CardList() {
-    const { state } = useContext(AppContext);
-
+    const [error, setError] = useState();
+    const [items, setItems] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [time, setTime] = useState((new Date()).getSeconds() % 30);
 
     useEffect(() => {
-        const timer = setTimeout(() => setTime((new Date()).getSeconds() % 30), 1000);
+        const timer = setTimeout(() => {
+            chrome.runtime.sendMessage({ action: 'fetch-items' }, ({ error, items }) => {
+                setError(error);
+                setItems(items);
+                setIsLoaded(true);
+            });
+            setTime((new Date()).getSeconds() % 30);
+        }, 10000);
         return () => clearTimeout(timer);
-    }, [time]);
+    }, [error, items, time]);
 
-    function assertType(type, value) {
-        if (!(value instanceof type)) {
-            throw new Error('Unexpected type');
-        }
+    if (!isLoaded) {
+        return <Spinner className='m-md' size='16px' />;
     }
 
-    let parsedConfig;
-    try {
-        parsedConfig = JSON.parse(state.config);
-        assertType(Array, parsedConfig);
-    } catch {
-        return <p className='p-md text-red'>Invalid configuration</p>;
+    if (error) {
+        return <p className='p-md text-red'>{ error }</p>;
     }
 
-    if (!parsedConfig.length) {
-        return <p className='p-md'>No items</p>;
-    }
-
-    const cards = parsedConfig.map(item => {
-        try {
-            assertType(Object, item);
-            const { name, secret } = item;
-            const totp = new TOTP({ secret }).generate();
-            return <Card key={ name } name={ name } time={ time } token={ totp } />;
-        } catch {
-            return <p className='m-sm-x p-sm text-red'>Invalid item</p>
-        }
+    const cards = items.map(item => {
+        const { name, token } = item;
+        return <Card key={ name } name={ name } time={ time } token={ token } />;
     });
 
     return <div className='card-list'>{ cards }</div>;

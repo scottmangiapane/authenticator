@@ -1,21 +1,13 @@
-/* global chrome */
-
-export function get(key, fallback) {
+export function get(key) {
     return new Promise((resolve) => {
-        if (!chrome?.runtime?.id) {
-            resolve(fallback);
-        }
         chrome.storage.sync.get([key], (result) => {
-            resolve(result[key] || fallback);
+            resolve(result[key]);
         });
     });
 }
 
 export function set(key, value) {
     return new Promise((resolve) => {
-        if (!chrome?.runtime?.id) {
-            resolve();
-        }
         chrome.storage.sync.set({ [key]: value }, () => {
             resolve();
         });

@@ -18,11 +18,11 @@
         "tabs"
     ],
     "commands": {
-        "insert-text": {
+        "insert-token": {
             "suggested_key": {
                 "default": "Ctrl+Shift+K"
             },
-            "description": "Auto-fill the first TOTP token"
+            "description": "Auto-fill the TOTP token for the current tab"
         }
     },
     "content_scripts": [{

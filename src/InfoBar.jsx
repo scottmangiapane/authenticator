@@ -6,17 +6,13 @@ import { AppContext } from './App';
 import EditIcon from './icons/EditIcon';
 import SaveIcon from './icons/SaveIcon';
 
-import { set } from './utils/storage';
-
 function InfoBar() {
     const { dispatch, state } = useContext(AppContext);
 
     function handleClick() {
         if (state.editMode) {
-            dispatch('CONFIG_LOADING');
-            set('config', state.config).then(() => {
-                dispatch('CONFIG_LOADED');
-            });
+            // TODO how to get editor contents since they're not in global state?
+            chrome.runtime.sendMessage({ action: 'set-config', request: null });
         }
         dispatch('TOGGLE_EDIT_MODE');
     }
